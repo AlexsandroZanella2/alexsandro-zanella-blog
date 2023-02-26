@@ -1,0 +1,514 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Building WinForms with Native AOT - Alexsandro Zanella’s Blog</title>
+<meta name="description" content="Native AOT is incredible, we already know that, but despite microsoft not providing support for WinForms and WPF, they have already said that this is perfectly possible, although easier in Winforms than WPF, they just aren’t in the plans (they still experimented with WinForms , which is much easier, you can check it out here ). These last few weeks I’ve been working on some projects with Native AOT and this lack of support for visual applications really bothered me, because I’m really amazed with the benefits of a language compiled in C#, but ok, life goes on.">
+
+
+  <meta name="author" content="Alexsandro Zanella">
+  
+  <meta property="article:author" content="Alexsandro Zanella">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Alexsandro Zanella's Blog">
+<meta property="og:title" content="Building WinForms with Native AOT">
+<meta property="og:url" content="/building-winforms-nativeaot/">
+
+
+  <meta property="og:description" content="Native AOT is incredible, we already know that, but despite microsoft not providing support for WinForms and WPF, they have already said that this is perfectly possible, although easier in Winforms than WPF, they just aren’t in the plans (they still experimented with WinForms , which is much easier, you can check it out here ). These last few weeks I’ve been working on some projects with Native AOT and this lack of support for visual applications really bothered me, because I’m really amazed with the benefits of a language compiled in C#, but ok, life goes on.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-02-25T00:00:00-03:00">
+
+
+
+
+
+
+<link rel="canonical" href="/building-winforms-nativeaot/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Alexsandro Zanella",
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Alexsandro Zanella's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Alexsandro Zanella's Blog
+          <span class="site-subtitle"></span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About me</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.jpeg" alt="Alexsandro Zanella" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Alexsandro Zanella</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Software engineer working on .NET and flutter projects.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://www.linkedin.com/in/alexsandro-carvalho-zanella-0b364b1b1" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/nodusthb" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/AlexsandroZanella2" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Building WinForms with Native AOT">
+    <meta itemprop="description" content="Native AOT is incredible, we already know that, but despite microsoft not providing support for WinForms and WPF, they have already said that this is perfectly possible, although easier in Winforms than WPF, they just aren’t in the plans (they still experimented with WinForms , which is much easier, you can check it out here ). These last few weeks I’ve been working on some projects with Native AOT and this lack of support for visual applications really bothered me, because I’m really amazed with the benefits of a language compiled in C#, but ok, life goes on.">
+    <meta itemprop="datePublished" content="2023-02-25T00:00:00-03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Building WinForms with Native AOT
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Native AOT is incredible, we already know that, but despite microsoft not providing support for WinForms and WPF, they have already said that this is perfectly possible, although easier in Winforms than WPF, they just aren’t in the plans (they still experimented with WinForms , which is much easier, you can check it out <a href="https://devblogs.microsoft.com/dotnet/winforms-enhancements-in-dotnet-7/">here</a> ). These last few weeks I’ve been working on some projects with Native AOT and this lack of support for visual applications really bothered me, because I’m really amazed with the benefits of a language compiled in C#, but ok, life goes on.</p>
+
+<h1 id="why-is-winforms-easier-than-wpf">Why is WinForms easier than WPF?</h1>
+
+<p>If you checked out the improvements made to WinForms in .NET 7, you noticed that they already experimented with WinForms, but didn’t mention testing with WPF, this is because WPF uses a lot more reflection, making it much more difficult and laborious to get first working results. In .NET 5, selected Windows Forms built-in COM interops have been replaced with ComWrappers, so built-in COM is completely disabled in trimming/Native AOT scenarios</p>
+
+<h2 id="is-it-really-possible-to-compile-winforms-with-native-aot">Is it really possible to compile WinForms with Native AOT?</h2>
+
+<p>Yes, but with caveats. Officially it is not supported, but microsoft itself mentions the efforts of <a href="https://github.com/kant2002">@kant2002</a>, who made available the WinFormsComInterop library, which allows us to compile Native AOT. Kant claims that over time this library will die, as official support for WinForms is added (I sincerely hope it happens soon). Anyway, it’s still much better than using a beta build of <a href="https://github.com/AvaloniaUI/Avalonia">Avalonia</a> in production, which is what I’m doing with some projects. Finally, you can use Native AOT + WinForms, but there are still a lot of problems during development that you will have to solve on your own for now, but you can already do a lot with it.</p>
+
+<h2 id="step-by-step">Step by step</h2>
+
+<p>With your WinForms .NET 7 project already created:</p>
+
+<ul>
+  <li>
+    <p>Add the WinFormsComInterop package through Nuget, or run the command <code class="language-plaintext highlighter-rouge">dotnet add package WinFormsComInterop</code></p>
+  </li>
+  <li>
+    <p>In the Program.cs file, add <code class="language-plaintext highlighter-rouge">ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);</code> at your program startup. It will look like this:</p>
+  </li>
+</ul>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="nn">System.Runtime.InteropServices</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">WinFormsAOT_example</span>
+<span class="p">{</span>
+    <span class="k">internal</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Program</span>
+    <span class="p">{</span>
+        <span class="p">[</span><span class="n">STAThread</span><span class="p">]</span>
+        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">ComWrappers</span><span class="p">.</span><span class="nf">RegisterForMarshalling</span><span class="p">(</span><span class="n">WinFormsComInterop</span><span class="p">.</span><span class="n">WinFormsComWrappers</span><span class="p">.</span><span class="n">Instance</span><span class="p">);</span>
+            <span class="n">ApplicationConfiguration</span><span class="p">.</span><span class="nf">Initialize</span><span class="p">();</span>
+            <span class="n">Application</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="k">new</span> <span class="nf">Form1</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Now enable Native AOT in your project by adding <code class="language-plaintext highlighter-rouge">&lt;PublishAot&gt;true&lt;/PublishAot&gt;</code> in your project file;</p>
+  </li>
+  <li>
+    <p>By default, if you try to compile now, you will get an error saying that WinForms does not support trimming. To fix this, also add <code class="language-plaintext highlighter-rouge">&lt;_SuppressWinFormsTrimError&gt;true&lt;/_SuppressWinFormsTrimError&gt;</code> in your project file</p>
+  </li>
+  <li>
+    <p>If using in a new project, your project file should look like this example:</p>
+  </li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Project</span> <span class="na">Sdk=</span><span class="s">"Microsoft.NET.Sdk"</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;PropertyGroup&gt;</span>
+    <span class="nt">&lt;OutputType&gt;</span>WinExe<span class="nt">&lt;/OutputType&gt;</span>
+    <span class="nt">&lt;TargetFramework&gt;</span>net7.0-windows<span class="nt">&lt;/TargetFramework&gt;</span>
+    <span class="nt">&lt;Nullable&gt;</span>enable<span class="nt">&lt;/Nullable&gt;</span>
+    <span class="nt">&lt;UseWindowsForms&gt;</span>true<span class="nt">&lt;/UseWindowsForms&gt;</span>
+    <span class="nt">&lt;ImplicitUsings&gt;</span>enable<span class="nt">&lt;/ImplicitUsings&gt;</span>
+    <span class="nt">&lt;PublishAot&gt;</span>true<span class="nt">&lt;/PublishAot&gt;</span>
+    <span class="nt">&lt;_SuppressWinFormsTrimError&gt;</span>true<span class="nt">&lt;/_SuppressWinFormsTrimError&gt;</span>
+  <span class="nt">&lt;/PropertyGroup&gt;</span>
+
+  <span class="nt">&lt;ItemGroup&gt;</span>
+    <span class="nt">&lt;PackageReference</span> <span class="na">Include=</span><span class="s">"WinFormsComInterop"</span> <span class="na">Version=</span><span class="s">"0.4.3"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/ItemGroup&gt;</span>
+
+<span class="nt">&lt;/Project&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Now your project is ready to be published with Native AOT 😄</li>
+</ul>
+
+<font size="3">
+<a href="https://github.com/AlexsandroZanella2/winforms-nativeaot-example">Download the sample project here</a> </font>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-02-25T00:00:00-03:00">February 25, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Building+WinForms+with+Native+AOT%20%2Fbuilding-winforms-nativeaot%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fbuilding-winforms-nativeaot%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fbuilding-winforms-nativeaot%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+            
+      </div>
+    </div>
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://www.linkedin.com/in/alexsandro-carvalho-zanella-0b364b1b1/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+        
+          <li><a href="https://github.com/AlexsandroZanella2" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/nodusthb/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Alexsandro Zanella. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "/building-winforms-nativeaot/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/building-winforms-nativeaot"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://nodusthb.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

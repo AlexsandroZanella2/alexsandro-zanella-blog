@@ -1,0 +1,77 @@
+<p>O Native AOT é incrível, isso já sabemos, mas apesar da microsoft não fornecer suporte para WinForms e WPF, já disseram que isso é perfeitamente possível, embora mais facil no Winforms que WPF, apenas não estão nos planos (ainda sim fizeram experimentos com WinForms, que é bem mais fácil, você pode conferir <a href="https://devblogs.microsoft.com/dotnet/winforms-enhancements-in-dotnet-7/">aqui</a> ). Essas últimas semanas eu venho trabalhando em alguns projetos com Native AOT e essa falta de suporte à aplicações visuais realmente me incomodou, pois estou realmente maravilhado com os benefícios de uma linguagem compilada no c#, mas ok, a vida continua.</p>
+
+<h1 id="why-is-winforms-easier-than-wpf">Why is WinForms easier than WPF?</h1>
+
+<p>If you checked out the improvements made to WinForms in .NET 7, you noticed that they already experimented with WinForms, but didn’t mention testing with WPF, this is because WPF uses a lot more reflection, making it much more difficult and laborious to get first working results. In .NET 5, selected Windows Forms built-in COM interops have been replaced with ComWrappers, so built-in COM is completely disabled in trimming/Native AOT scenarios</p>
+
+<h2 id="então-hoje-é-possível-compilar-winforms-com-native-aot">Então? Hoje é possível compilar WinForms com Native AOT?</h2>
+
+<p>Sim, mas com resalvas. Oficialmente não é suportado, mas a propria microsoft menciona os esforços de <a href="https://github.com/kant2002">@kant2002</a>, que disponibilizou a biblioteca WinFormsComInterop, que nos permite compilar Native AOT. Kant afirma que com o tempo essa biblioteca vai morrer, ao ser adicionado suporte oficial ao WinForms (sinceramente espero que ocorra logo). De qualquer forma, ainda é muito melhor que usar uma build beta de <a href="https://github.com/AvaloniaUI/Avalonia">Avalonia</a> em produção, que é o que estou fazendo com alguns pojetos. Para finalizar, você pode usar Native AOT + WinForms, mas ainda há varios problemas durante o desenvolvimento que terá que resolver por conta própria por enquanto, mas já é possível fazer muita coisa com isso.</p>
+
+<h2 id="passo-a-passo">Passo a passo</h2>
+
+<p>Com o seu projeto WinForms .NET 7 já criado:</p>
+
+<ul>
+  <li>
+    <p>Adicione o pacote WinFormsComInterop pelo Nuget, ou execute o comando <code class="language-plaintext highlighter-rouge">dotnet add package WinFormsComInterop</code></p>
+  </li>
+  <li>
+    <p>No arquivo Program.cs, adicione <code class="language-plaintext highlighter-rouge">ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);</code> na inicialização do seu programa. Ele ficará parecido com isso:</p>
+  </li>
+</ul>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="nn">System.Runtime.InteropServices</span><span class="p">;</span>
+
+<span class="k">namespace</span> <span class="nn">WinFormsAOT_example</span>
+<span class="p">{</span>
+    <span class="k">internal</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">Program</span>
+    <span class="p">{</span>
+        <span class="p">[</span><span class="n">STAThread</span><span class="p">]</span>
+        <span class="k">static</span> <span class="k">void</span> <span class="nf">Main</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="n">ComWrappers</span><span class="p">.</span><span class="nf">RegisterForMarshalling</span><span class="p">(</span><span class="n">WinFormsComInterop</span><span class="p">.</span><span class="n">WinFormsComWrappers</span><span class="p">.</span><span class="n">Instance</span><span class="p">);</span>
+            <span class="n">ApplicationConfiguration</span><span class="p">.</span><span class="nf">Initialize</span><span class="p">();</span>
+            <span class="n">Application</span><span class="p">.</span><span class="nf">Run</span><span class="p">(</span><span class="k">new</span> <span class="nf">Form1</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p>Agora habilite o Native AOT no seu projeto adicionando <code class="language-plaintext highlighter-rouge">&lt;PublishAot&gt;true&lt;/PublishAot&gt;</code> no seu arquivo de projeto;</p>
+  </li>
+  <li>
+    <p>Por padrão, se tentar compilar agora, receberá um erro, informando que WinForms não suporta trimming. Para corrigir isso, adicione também <code class="language-plaintext highlighter-rouge">&lt;_SuppressWinFormsTrimError&gt;true&lt;/_SuppressWinFormsTrimError&gt;</code> no seu arquivo de projeto</p>
+  </li>
+  <li>
+    <p>Se estiver usando num projeto novo, seu arquivo de projeto deve se parecer com esse exemplo:</p>
+  </li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;Project</span> <span class="na">Sdk=</span><span class="s">"Microsoft.NET.Sdk"</span><span class="nt">&gt;</span>
+
+  <span class="nt">&lt;PropertyGroup&gt;</span>
+    <span class="nt">&lt;OutputType&gt;</span>WinExe<span class="nt">&lt;/OutputType&gt;</span>
+    <span class="nt">&lt;TargetFramework&gt;</span>net7.0-windows<span class="nt">&lt;/TargetFramework&gt;</span>
+    <span class="nt">&lt;Nullable&gt;</span>enable<span class="nt">&lt;/Nullable&gt;</span>
+    <span class="nt">&lt;UseWindowsForms&gt;</span>true<span class="nt">&lt;/UseWindowsForms&gt;</span>
+    <span class="nt">&lt;ImplicitUsings&gt;</span>enable<span class="nt">&lt;/ImplicitUsings&gt;</span>
+    <span class="nt">&lt;PublishAot&gt;</span>true<span class="nt">&lt;/PublishAot&gt;</span>
+    <span class="nt">&lt;_SuppressWinFormsTrimError&gt;</span>true<span class="nt">&lt;/_SuppressWinFormsTrimError&gt;</span>
+  <span class="nt">&lt;/PropertyGroup&gt;</span>
+
+  <span class="nt">&lt;ItemGroup&gt;</span>
+    <span class="nt">&lt;PackageReference</span> <span class="na">Include=</span><span class="s">"WinFormsComInterop"</span> <span class="na">Version=</span><span class="s">"0.4.3"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/ItemGroup&gt;</span>
+
+<span class="nt">&lt;/Project&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Agora seu projeto está pronto para ser publicado com Native AOT 😄</li>
+</ul>
+
+<font size="3">
+<a href="https://github.com/AlexsandroZanella2/winforms-nativeaot-example">Você pode baixar aqui o projeto de exemplo</a> </font>
