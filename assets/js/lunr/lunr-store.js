@@ -4,4 +4,10 @@ var store = [{
         "tags": [],
         "url": "/building-winforms-nativeaot/",
         "teaser": null
+      },{
+        "title": "Entity vs Dto vs Model",
+        "excerpt":"Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto...","categories": [],
+        "tags": [],
+        "url": "/entity-vs-dto-vs-model/",
+        "teaser": null
       }]

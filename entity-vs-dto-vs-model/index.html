@@ -1,0 +1,531 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Entity vs Dto vs Model - Alexsandro Zanella’s Blog</title>
+<meta name="description" content="Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅 It turns out that we ended up missing some details like that early in our career.">
+
+
+  <meta name="author" content="Alexsandro Zanella">
+  
+  <meta property="article:author" content="Alexsandro Zanella">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Alexsandro Zanella's Blog">
+<meta property="og:title" content="Entity vs Dto vs Model">
+<meta property="og:url" content="/entity-vs-dto-vs-model/">
+
+
+  <meta property="og:description" content="Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅 It turns out that we ended up missing some details like that early in our career.">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-02-26T00:00:00-03:00">
+
+
+
+
+
+
+<link rel="canonical" href="/entity-vs-dto-vs-model/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Alexsandro Zanella",
+      "url": "/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Alexsandro Zanella's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single wide">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Alexsandro Zanella's Blog
+          <span class="site-subtitle"></span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About me</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/bio-photo.jpeg" alt="Alexsandro Zanella" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Alexsandro Zanella</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Software engineer working on .NET and flutter projects.</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://www.linkedin.com/in/alexsandro-carvalho-zanella-0b364b1b1" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+        <li>
+          <a href="https://instagram.com/nodusthb" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+        <li>
+          <a href="https://github.com/AlexsandroZanella2" itemprop="sameAs" rel="nofollow noopener noreferrer">
+            <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Entity vs Dto vs Model">
+    <meta itemprop="description" content="Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅It turns out that we ended up missing some details like that early in our career.">
+    <meta itemprop="datePublished" content="2023-02-26T00:00:00-03:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Entity vs Dto vs Model
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <p>Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅
+It turns out that we ended up missing some details like that early in our career.</p>
+
+<h3 id="entity">Entity</h3>
+
+<p>In different contexts, an entity can represent something different, let’s focus on .NET only:
+It is a class that represents an object in the database. For example, a customer table mapped using Column attributes:</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"customers"</span><span class="p">)]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Customers</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"id"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">long</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"first_name"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">FirstName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"last_name"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">LastName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"age"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Age</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Note that all fields are linked to a column of the object in the database, this is the ideal scenario for an entity, it uniquely and completely represents an object in the database, no business rules, no functions, just that.</p>
+
+<h3 id="dto-data-transfer-object">Dto (Data Transfer Object)</h3>
+
+<p>According to <a href="https://www.linkedin.com/in/eng-omar-ismail/">Omar Ismail</a> - <em>The Jee and Jpa community sees entities primarily as objects mapped to a database table. This view is very close to the definition of a DTO - which is where much of the confusion probably comes from</em>
+DTOs are data sent and received between clients and the server.
+Why not use the same class for both purposes? After all, I could just fetch the record from the database and return to the front-end. When you make a change to this class, you will need to change the front-end as well. When you use a DTO for the transfer, you will only need to change the front-end if really necessary, in addition to not having to return anything more than necessary, so you will have less people (less work, time and money) involved for a small amount of time. change in the structure of the database.</p>
+
+<p>Example: You have a varchar(30) field in a sales table that represents the source of sales (eBay, Telephone, Ecommerce), and you realize that it would be better to just save an id to another table with this information: If you return a DTO , there will be no change to it, just your query, so the front-end developer won’t need to change anything.</p>
+
+<h3 id="model">Model</h3>
+
+<p>A model represents a real-world object that is related to the problem or domain space. In other words, it’s where you place your business rules, functions, methods, etc… But don’t confuse it with the ViewModel, which is an intermediary for the view, containing the Models needed to be displayed in a View, as well as capturing events from the View. view(Click, KeyDown…).
+For example, a class that you use to encrypt any text is a Model; A class used to calculate mathematical functions, is also a Model.</p>
+
+<h2 id="summary">Summary</h2>
+<ul>
+  <li>Entity: Database object</li>
+  <li>DTO: Object you transfer between client/server</li>
+  <li>Model: Class where you place your methods/functions and/or that is related to the problem that the application solves, normally it is what you will use if it is not Entity or DTO.</li>
+</ul>
+
+<p><i><font size="3" sty="">
+Sources: <a href="https://shreyasnisal.medium.com/data-transfer-objects-entities-and-repositories-12a4ce278b1">1</a>, <a href="https://medium.com/@frankhuang66655">2</a>, <a href="https://www.linkedin.com/in/eng-omar-ismail/">3</a>, <a href="https://stackoverflow.com/questions/26563444/entity-vs-model-vs-view-model">4</a>
+</font></i></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time datetime="2023-02-26T00:00:00-03:00">February 26, 2023</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Entity+vs+Dto+vs+Model%20%2Fentity-vs-dto-vs-model%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fentity-vs-dto-vs-model%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=%2Fentity-vs-dto-vs-model%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/building-winforms-nativeaot/" class="pagination--pager" title="Building WinForms with Native AOT
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h4 class="page__related-title">You may also enjoy</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/building-winforms-nativeaot/" rel="permalink">Building WinForms with Native AOT
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Native AOT is incredible, we already know that, but despite microsoft not providing support for WinForms and WPF, they have already said that this is perfect...</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+          <li><a href="https://www.linkedin.com/in/alexsandro-carvalho-zanella-0b364b1b1/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+        
+          <li><a href="https://github.com/AlexsandroZanella2" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i> GitHub</a></li>
+        
+      
+        
+          <li><a href="https://www.instagram.com/nodusthb/" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 Alexsandro Zanella. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/assets/js/lunr/lunr.min.js"></script>
+<script src="/assets/js/lunr/lunr-store.js"></script>
+<script src="/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "/entity-vs-dto-vs-model/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/entity-vs-dto-vs-model"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://nodusthb.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>

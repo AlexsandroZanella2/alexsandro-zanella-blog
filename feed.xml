@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-02-26T15:03:08-03:00</updated><id>/feed.xml</id><title type="html">Alexsandro Zanella’s Blog</title><author><name>Alexsandro Zanella</name></author><entry><title type="html">Building WinForms with Native AOT</title><link href="/building-winforms-nativeaot/" rel="alternate" type="text/html" title="Building WinForms with Native AOT" /><published>2023-02-25T00:00:00-03:00</published><updated>2023-02-25T00:00:00-03:00</updated><id>/building-winforms-nativeaot</id><content type="html" xml:base="/building-winforms-nativeaot/"><![CDATA[<p>Native AOT is incredible, we already know that, but despite microsoft not providing support for WinForms and WPF, they have already said that this is perfectly possible, although easier in Winforms than WPF, they just aren’t in the plans (they still experimented with WinForms , which is much easier, you can check it out <a href="https://devblogs.microsoft.com/dotnet/winforms-enhancements-in-dotnet-7/">here</a> ). These last few weeks I’ve been working on some projects with Native AOT and this lack of support for visual applications really bothered me, because I’m really amazed with the benefits of a language compiled in C#, but ok, life goes on.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-02-28T20:47:12-03:00</updated><id>/feed.xml</id><title type="html">Alexsandro Zanella’s Blog</title><author><name>Alexsandro Zanella</name></author><entry><title type="html">Entity vs Dto vs Model</title><link href="/entity-vs-dto-vs-model/" rel="alternate" type="text/html" title="Entity vs Dto vs Model" /><published>2023-02-26T00:00:00-03:00</published><updated>2023-02-26T00:00:00-03:00</updated><id>/entity-vs-dto-vs-model</id><content type="html" xml:base="/entity-vs-dto-vs-model/"><![CDATA[<p>Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅
+It turns out that we ended up missing some details like that early in our career.</p>
+
+<h3 id="entity">Entity</h3>
+
+<p>In different contexts, an entity can represent something different, let’s focus on .NET only:
+It is a class that represents an object in the database. For example, a customer table mapped using Column attributes:</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"customers"</span><span class="p">)]</span>
+<span class="k">public</span> <span class="k">class</span> <span class="nc">Customers</span> <span class="p">{</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"id"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">long</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"first_name"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">FirstName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"last_name"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">LastName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">[</span><span class="nf">Table</span><span class="p">(</span><span class="s">"age"</span><span class="p">)]</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Age</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Note that all fields are linked to a column of the object in the database, this is the ideal scenario for an entity, it uniquely and completely represents an object in the database, no business rules, no functions, just that.</p>
+
+<h3 id="dto-data-transfer-object">Dto (Data Transfer Object)</h3>
+
+<p>According to <a href="https://www.linkedin.com/in/eng-omar-ismail/">Omar Ismail</a> - <em>The Jee and Jpa community sees entities primarily as objects mapped to a database table. This view is very close to the definition of a DTO - which is where much of the confusion probably comes from</em>
+DTOs are data sent and received between clients and the server.
+Why not use the same class for both purposes? After all, I could just fetch the record from the database and return to the front-end. When you make a change to this class, you will need to change the front-end as well. When you use a DTO for the transfer, you will only need to change the front-end if really necessary, in addition to not having to return anything more than necessary, so you will have less people (less work, time and money) involved for a small amount of time. change in the structure of the database.</p>
+
+<p>Example: You have a varchar(30) field in a sales table that represents the source of sales (eBay, Telephone, Ecommerce), and you realize that it would be better to just save an id to another table with this information: If you return a DTO , there will be no change to it, just your query, so the front-end developer won’t need to change anything.</p>
+
+<h3 id="model">Model</h3>
+
+<p>A model represents a real-world object that is related to the problem or domain space. In other words, it’s where you place your business rules, functions, methods, etc… But don’t confuse it with the ViewModel, which is an intermediary for the view, containing the Models needed to be displayed in a View, as well as capturing events from the View. view(Click, KeyDown…).
+For example, a class that you use to encrypt any text is a Model; A class used to calculate mathematical functions, is also a Model.</p>
+
+<h2 id="summary">Summary</h2>
+<ul>
+  <li>Entity: Database object</li>
+  <li>DTO: Object you transfer between client/server</li>
+  <li>Model: Class where you place your methods/functions and/or that is related to the problem that the application solves, normally it is what you will use if it is not Entity or DTO.</li>
+</ul>
+
+<p><i><font size="3" sty="">
+Sources: <a href="https://shreyasnisal.medium.com/data-transfer-objects-entities-and-repositories-12a4ce278b1">1</a>, <a href="https://medium.com/@frankhuang66655">2</a>, <a href="https://www.linkedin.com/in/eng-omar-ismail/">3</a>, <a href="https://stackoverflow.com/questions/26563444/entity-vs-model-vs-view-model">4</a>
+</font></i></p>]]></content><author><name>Alexsandro Zanella</name></author><summary type="html"><![CDATA[Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅 It turns out that we ended up missing some details like that early in our career.]]></summary></entry><entry><title type="html">Building WinForms with Native AOT</title><link href="/building-winforms-nativeaot/" rel="alternate" type="text/html" title="Building WinForms with Native AOT" /><published>2023-02-25T00:00:00-03:00</published><updated>2023-02-25T00:00:00-03:00</updated><id>/building-winforms-nativeaot</id><content type="html" xml:base="/building-winforms-nativeaot/"><![CDATA[<p>Native AOT is incredible, we already know that, but despite microsoft not providing support for WinForms and WPF, they have already said that this is perfectly possible, although easier in Winforms than WPF, they just aren’t in the plans (they still experimented with WinForms , which is much easier, you can check it out <a href="https://devblogs.microsoft.com/dotnet/winforms-enhancements-in-dotnet-7/">here</a> ). These last few weeks I’ve been working on some projects with Native AOT and this lack of support for visual applications really bothered me, because I’m really amazed with the benefits of a language compiled in C#, but ok, life goes on.</p>
 
 <h1 id="why-is-winforms-easier-than-wpf">Why is WinForms easier than WPF?</h1>
 
