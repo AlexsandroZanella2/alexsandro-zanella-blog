@@ -10,4 +10,10 @@ var store = [{
         "tags": [],
         "url": "/entity-vs-dto-vs-model/",
         "teaser": null
+      },{
+        "title": "Using enums with Entity Framework to Replace Lookup Tables",
+        "excerpt":"Using Enums with Entity Framework to Replace Lookup Tables In this short article, I will cover how to use enums in columns when they can replace a lookup table. If you’re looking for a more comprehensive article, I recommend reading this article by Maarten Merken, which goes into more detail...","categories": [],
+        "tags": [],
+        "url": "/using-enums-with-entity-framework/",
+        "teaser": null
       }]

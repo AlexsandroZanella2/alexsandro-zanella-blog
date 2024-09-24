@@ -1,4 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2023-02-28T20:47:12-03:00</updated><id>/feed.xml</id><title type="html">Alexsandro Zanella’s Blog</title><author><name>Alexsandro Zanella</name></author><entry><title type="html">Entity vs Dto vs Model</title><link href="/entity-vs-dto-vs-model/" rel="alternate" type="text/html" title="Entity vs Dto vs Model" /><published>2023-02-26T00:00:00-03:00</published><updated>2023-02-26T00:00:00-03:00</updated><id>/entity-vs-dto-vs-model</id><content type="html" xml:base="/entity-vs-dto-vs-model/"><![CDATA[<p>Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2024-09-24T18:31:38-03:00</updated><id>/feed.xml</id><title type="html">Alexsandro Zanella’s Blog</title><author><name>Alexsandro Zanella</name></author><entry><title type="html">Using enums with Entity Framework to Replace Lookup Tables</title><link href="/using-enums-with-entity-framework/" rel="alternate" type="text/html" title="Using enums with Entity Framework to Replace Lookup Tables" /><published>2023-02-28T00:00:00-03:00</published><updated>2023-02-28T00:00:00-03:00</updated><id>/using-enums-with-entity-framework</id><content type="html" xml:base="/using-enums-with-entity-framework/"><![CDATA[<h1 id="using-enums-with-entity-framework-to-replace-lookup-tables">Using Enums with Entity Framework to Replace Lookup Tables</h1>
+
+<ul>
+  <li>In this short article, I will cover how to use enums in columns when they can replace a lookup table. If you’re looking for a more comprehensive article, I recommend reading this article by <a href="https://medium.com/agilix/entity-framework-core-enums-ee0f8f4063f2">Maarten Merken</a>, which goes into more detail on EFCore, including how to use enums in primary keys.</li>
+</ul>
+
+<p>If you’re a C# developer looking for a way to make your code more organized, readable, and easier to maintain, then enums with Entity Framework might be the solution you’re looking for.</p>
+
+<p>Using enums in Entity Framework allows you to define a set of possible values for a field in a database table. These values can be easily referenced in your code using meaningful names instead of numeric values. Additionally, enums can be used to define relationships between tables, making it easier to understand the data model.</p>
+
+<p>But why is using enums with Entity Framework so exciting?</p>
+
+<p>First, it ensures data consistency in your database, reducing the chance of data entry errors. For instance, if you have a “status” field in a table, defining an enum with possible values like “active,” “inactive,” and “pending” ensures that these values are used correctly and consistently throughout the system.</p>
+
+<p>Second, using enums makes the code more readable. Instead of relying on magic numbers to represent values, you can use meaningful names that describe what’s happening. This makes your code easier to understand and maintain, especially when returning to it after a long time.</p>
+
+<p>Additionally, enums can help prevent the creation of unnecessary lookup tables in your database. Instead of creating a separate table for values like “Pending,” “Approved,” and “Canceled,” you can use an enum to define these values directly in your code. This approach simplifies your database schema and can improve performance by reducing the number of joins needed in your queries.</p>
+
+<p>When using enums, it’s also important to consider how they are mapped to your database. By default, Entity Framework will store enums as their underlying integer values. However, you can configure Entity Framework to store them as strings if that fits your needs better. For example, using the <code class="language-plaintext highlighter-rouge">HasConversion()</code> method allows you to specify how to convert between your enum and the database representation, providing flexibility in how you manage your data.</p>
+
+<p>Finally, using enums with Entity Framework helps ensure the scalability of your code. If you need to add new values to a field in a table, you can simply add a new value to the enum in your code and update the database. This prevents the need for major changes to your code and helps ensure it remains scalable and easy to maintain.</p>
+
+<p>In summary, using enums with Entity Framework in C# can help you maintain data consistency, make your code more readable and scalable, and ensure that your system is easy to understand and maintain. So, if you’re not using enums yet, it’s time to start exploring the possibilities they offer!</p>
+
+<p>Example:</p>
+
+<p>Suppose you have an “Orders” table in your database with a “Status” field that can be “Pending,” “Approved,” or “Canceled.” Instead of using numeric values to represent these states in your code, you can create an enum for them:</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">enum</span> <span class="n">OrderStatus</span>
+<span class="p">{</span>
+    <span class="n">Pending</span><span class="p">,</span>
+    <span class="n">Approved</span><span class="p">,</span>
+    <span class="n">Canceled</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now, you can use this enum in your entity model class to represent the “Status” field:</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Order</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">CustomerName</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">OrderStatus</span> <span class="n">Status</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>When creating a new instance of <code class="language-plaintext highlighter-rouge">Order</code>, you can set the <code class="language-plaintext highlighter-rouge">Status</code> field using the enum, as shown in this example:</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">newOrder</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Order</span>
+<span class="p">{</span>
+    <span class="n">CustomerName</span> <span class="p">=</span> <span class="s">"John Doe"</span><span class="p">,</span>
+    <span class="n">Status</span> <span class="p">=</span> <span class="n">OrderStatus</span><span class="p">.</span><span class="n">Pending</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<p>And when you need to query or update orders in your database using Entity Framework, you can use the enum to reference the <code class="language-plaintext highlighter-rouge">Status</code> field:</p>
+
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Query pending orders</span>
+<span class="kt">var</span> <span class="n">pendingOrders</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Orders</span><span class="p">.</span><span class="nf">Where</span><span class="p">(</span><span class="n">o</span> <span class="p">=&gt;</span> <span class="n">o</span><span class="p">.</span><span class="n">Status</span> <span class="p">==</span> <span class="n">OrderStatus</span><span class="p">.</span><span class="n">Pending</span><span class="p">);</span>
+
+<span class="c1">// Update the status of an order</span>
+<span class="kt">var</span> <span class="n">order</span> <span class="p">=</span> <span class="n">db</span><span class="p">.</span><span class="n">Orders</span><span class="p">.</span><span class="nf">FirstOrDefault</span><span class="p">(</span><span class="n">o</span> <span class="p">=&gt;</span> <span class="n">o</span><span class="p">.</span><span class="n">Id</span> <span class="p">==</span> <span class="m">1</span><span class="p">);</span>
+<span class="n">order</span><span class="p">.</span><span class="n">Status</span> <span class="p">=</span> <span class="n">OrderStatus</span><span class="p">.</span><span class="n">Approved</span><span class="p">;</span>
+<span class="n">db</span><span class="p">.</span><span class="nf">SaveChanges</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>This is just a basic example, but I hope it illustrates how using enums with Entity Framework can make your code more readable and easier to maintain.</p>]]></content><author><name>Alexsandro Zanella</name></author><summary type="html"><![CDATA[Using Enums with Entity Framework to Replace Lookup Tables]]></summary></entry><entry><title type="html">Entity vs Dto vs Model</title><link href="/entity-vs-dto-vs-model/" rel="alternate" type="text/html" title="Entity vs Dto vs Model" /><published>2023-02-26T00:00:00-03:00</published><updated>2023-02-26T00:00:00-03:00</updated><id>/entity-vs-dto-vs-model</id><content type="html" xml:base="/entity-vs-dto-vs-model/"><![CDATA[<p>Several times I take on legacy or somewhat old projects in my daily life, which those who developed it had the same doubt that I already had: is it an entity, a dto or a model? And ended up making the same “mistake” that I already made, just choosing dto or entity to name the folder in the dto and mixing all the classes in that same folder 😅
 It turns out that we ended up missing some details like that early in our career.</p>
 
 <h3 id="entity">Entity</h3>

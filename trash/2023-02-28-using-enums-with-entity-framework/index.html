@@ -1,1 +1,58 @@
+<h1 id="using-enums-with-entity-framework-as-an-alternative-to-an-unnecessary-new-table-in-the-database">Using enums with Entity Framework as an alternative to an unnecessary new table in the database.</h1>
 
+<ul>
+  <li>In this short article I will only cover how to use enums in columns when they can replace a table, if you want a more complete article I recommend reading this article by <a href="https://medium.com/agilix/entity-framework-core-enums-ee0f8f4063f2">Maarten Merken</a> which goes into more detail for EFCore including how to use enum in Primary Keys</li>
+</ul>
+
+<p>Se você é um desenvolvedor C# que está procurando uma maneira de tornar seu código mais organizado, legível e fácil de manter, então enums com o Entity Framework podem ser a solução que você está procurando.</p>
+
+<p>Usar enums no Entity Framework permite que você defina uma série de valores possíveis para um campo em uma tabela de banco de dados. Esses valores podem ser facilmente referenciados em seu código usando nomes significativos em vez de valores numéricos. Além disso, você pode usar enums para definir relacionamentos entre tabelas, facilitando a compreensão do modelo de dados.</p>
+
+<p>Mas por que usar enums com o Entity Framework é tão empolgante?</p>
+
+<p>Em primeiro lugar, isso significa que você pode manter a consistência dos dados em seu banco de dados, reduzindo a chance de erros de entrada de dados. Por exemplo, se você tem um campo “status” em uma tabela, definir um enum com os possíveis valores de “ativo”, “inativo” e “pendente” garantirá que esses valores sejam usados corretamente e de forma consistente em todo o sistema.</p>
+
+<p>Em segundo lugar, o uso de enums torna o código mais legível. Em vez de usar números mágicos para representar os valores em seu código, você pode usar nomes significativos que ajudam a descrever o que está acontecendo. Isso torna seu código mais fácil de entender e de dar manutenção, especialmente quando você volta para ele depois de um longo tempo.</p>
+
+<p>Finalmente, o uso de enums com o Entity Framework ajuda a garantir a escalabilidade do seu código. Se você precisar adicionar novos valores a um campo em uma tabela, você pode simplesmente adicionar um novo valor ao enum em seu código e atualizar o banco de dados. Isso permite que você evite a necessidade de fazer grandes alterações em seu código e ajuda a garantir que ele continue a ser escalável e fácil de manter.</p>
+
+<p>Em resumo, o uso de enums com o Entity Framework no C# pode ajudá-lo a manter seus dados consistentes, tornar seu código mais legível e escalável, e garantir que seu sistema seja fácil de entender e dar manutenção. Então, se você ainda não está usando enums, é hora de começar a explorar as possibilidades que eles oferecem!</p>
+
+<p>Exemplo:</p>
+
+<p>Suponha que você tenha uma tabela “Pedidos” em seu banco de dados que tenha um campo “Status” que pode ser “Pendente”, “Aprovado” ou “Cancelado”. Em vez de usar valores numéricos para representar esses estados em seu código, você pode criar um enum para eles:</p>
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">enum</span> <span class="n">StatusPedido</span>
+<span class="p">{</span>
+    <span class="n">Pendente</span><span class="p">,</span>
+    <span class="n">Aprovado</span><span class="p">,</span>
+    <span class="n">Cancelado</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Agora você pode usar esse enum em sua classe de modelo de entidade para representar o campo “Status”:</p>
+<div class="language-c# highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">Pedido</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Id</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="kt">string</span> <span class="n">NomeCliente</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+    <span class="k">public</span> <span class="n">StatusPedido</span> <span class="n">Status</span> <span class="p">{</span> <span class="k">get</span><span class="p">;</span> <span class="k">set</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p>Quando você criar uma nova instância de Pedido, poderá definir o campo Status usando o enum, como neste exemplo:
+```` c#
+var novoPedido = new Pedido
+{
+    NomeCliente = “John Doe”,
+    Status = StatusPedido.Pendente
+};</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+E quando você precisar consultar ou atualizar pedidos em seu banco de dados usando o Entity Framework, poderá usar o enum para referenciar o campo Status:
+``` c#
+// Consultar pedidos pendentes
+var pedidosPendentes = db.Pedidos.Where(p =&gt; p.Status == StatusPedido.Pendente);
+
+// Atualizar o status de um pedido
+var pedido = db.Pedidos.FirstOrDefault(p =&gt; p.Id == 1);
+pedido.Status = StatusPedido.Aprovado;
+db.SaveChanges();
+</code></pre></div></div>
+
+<p>Esse é apenas um exemplo básico, mas espero que ilustre como usar enums com o Entity Framework pode tornar seu código mais legível e fácil de manter.</p>
