@@ -1,11 +1,12 @@
 <!doctype html>
 <!--
-  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
-  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
   Free for personal and commercial use under the MIT license
   https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
 -->
-<html lang="en" class="no-js">
+
+<html lang="en-US" class="no-js">
   <head>
     <meta charset="utf-8">
 
@@ -40,16 +41,7 @@
 
 
 
-<script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    
-      "@type": "Person",
-      "name": "Alexsandro Zanella",
-      "url": "/"
-    
-  }
-</script>
+
 
 
 
@@ -62,19 +54,17 @@
 
 
   <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Alexsandro Zanella's Blog Feed">
-
-
-<!-- https://t.co/dKP3o1e -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<script>
+<script type="text/javascript">
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
 </script>
 
 <!-- For all browsers -->
 <link rel="stylesheet" href="/assets/css/main.css">
-<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
 
 
 
@@ -95,10 +85,6 @@
   </ul>
 </nav>
 
-    <!--[if lt IE 9]>
-<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
-<![endif]-->
-
     
 
 <div class="masthead">
@@ -111,9 +97,17 @@
           <span class="site-subtitle"></span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
-              <a href="/posts/">Posts</a>
+              <a
+                href="/posts/"
+                
+                
+              >Posts</a>
             </li><li class="masthead__menu-item">
-              <a href="/about/">About me</a>
+              <a
+                href="/about/"
+                
+                
+              >About me</a>
             </li></ul>
         
         <button class="search__toggle" type="button">
@@ -137,28 +131,30 @@
 
 
 
+
+
 <div id="main" role="main">
   
   <div class="sidebar sticky">
   
 
 
-<div itemscope itemtype="https://schema.org/Person">
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
 
   
     <div class="author__avatar">
-      
-        <img src="/assets/images/bio-photo.jpg" alt="Alexsandro Zanella" itemprop="image">
-      
+      <a href="/">
+        <img src="/assets/images/bio-photo.jpg" alt="Alexsandro Zanella" itemprop="image" class="u-photo">
+      </a>
     </div>
   
 
   <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="/" itemprop="url">Alexsandro Zanella</a>
+    </h3>
     
-      <h3 class="author__name" itemprop="name">Alexsandro Zanella</h3>
-    
-    
-      <div class="author__bio" itemprop="description">
+      <div class="author__bio p-note" itemprop="description">
         <p>Software engineer working on .NET and flutter projects.</p>
 
       </div>
@@ -184,7 +180,7 @@
 
       
         <li>
-          <a href="https://www.linkedin.com/in/alexsandrozanella" itemprop="sameAs" rel="nofollow noopener noreferrer">
+          <a href="https://www.linkedin.com/in/alexsandrozanella" itemprop="sameAs" rel="nofollow noopener noreferrer me">
             <i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span>
           </a>
         </li>
@@ -194,7 +190,7 @@
 
       
         <li>
-          <a href="https://instagram.com/zanella.dev" itemprop="sameAs" rel="nofollow noopener noreferrer">
+          <a href="https://instagram.com/zanella.dev" itemprop="sameAs" rel="nofollow noopener noreferrer me">
             <i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span>
           </a>
         </li>
@@ -206,7 +202,7 @@
 
       
         <li>
-          <a href="https://github.com/AlexsandroZanella2" itemprop="sameAs" rel="nofollow noopener noreferrer">
+          <a href="https://github.com/AlexsandroZanella2" itemprop="sameAs" rel="nofollow noopener noreferrer me">
             <i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span>
           </a>
         </li>
@@ -240,7 +236,7 @@
 
       <!--
   <li>
-    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
       <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
     </a>
   </li>
@@ -263,8 +259,10 @@
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">About Alexsandro Zanella
-</h1>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="/about/" itemprop="url">About Alexsandro Zanella
+</a>
+          </h1>
           
 
 
@@ -278,26 +276,45 @@
 
 <p align="center">
 
-I'm Alexsandro Zanella, and I work as a Software Engineer.I love software development, games and coffee! I've been working with software development for 5 years. I have experience with ERPs for Industry, pharmacies, distributors, mechanics and general commerce, multiplatform apps and cloud. I enjoy learning, teaching, sharing and working in the software development, with diverse tools and languages. I am passionate about innovation and new challenges. Currently working as a software engineer in Brazil and as a freelancer☕ 
+I'm Alexsandro Zanella, and I work as a Software Engineer.I love software development, games and coffee! I've been working with software development for <span id="experience-years"></span> years for some of the biggest companies in LATAM, like <a href="https://www.linkedin.com/company/localizaco" target="_blank">Localiza&amp;Co</a>, <a href="https://www.linkedin.com/company/btgpactual" target="_blank">BTG Pactual</a> and <a href="https://www.linkedin.com/company/neogrid" target="_blank">Neogrid</a>, in addition to the <a href="https://www.linkedin.com/company/telekom" target="_blank">largest telecommunications company in Europe</a>. I enjoy learning, teaching, sharing and working in the software development, with diverse tools and languages. I am passionate about innovation and new challenges. Currently working as a software engineer in Brazil and as a freelancer☕ 
 </p>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const startYear = 2017;
+    const currentYear = new Date().getFullYear();
+    document.getElementById("experience-years").textContent = currentYear - startYear;
+  });
+</script>
 
 <p align="center">
  <font size="3">💻  Technologies &amp; Tools </font>
 <br />
+<!-- [![Elixir](https://img.shields.io/badge/Elixir-%234B275F.svg?&logo=elixir&logoColor=white)](#) -->
 <img src="https://img.shields.io/badge/c sharp-239120.svg?&amp;style=for-the-badge&amp;logo=csharp&amp;logoColor=white" height="25" />
+<img src="https://img.shields.io/badge/Elixir-%234B275F?&amp;style=for-the-badge&amp;logo=elixir&amp;logoColor=white" height="25" />
 <img src="https://img.shields.io/badge/dotnet-512BD4.svg?&amp;style=for-the-badge&amp;logo=dotnet&amp;logoColor=white" height="25" />
 <img src="https://img.shields.io/badge/WPF-2563EB.svg?&amp;style=for-the-badge" height="25" />
 <img src="https://img.shields.io/badge/flutter-02569B.svg?&amp;style=for-the-badge&amp;logo=flutter&amp;logoColor=white" height="20" />
 <img src="https://img.shields.io/badge/node.js%20-%2343853D.svg?&amp;style=for-the-badge&amp;logo=node.js&amp;logoColor=white" height="20" />
 <img src="https://img.shields.io/badge/javascript-%23F7DF1E.svg?&amp;style=for-the-badge&amp;logo=javascript&amp;logoColor=black" height="25" />
-<!-- <img src="https://img.shields.io/badge/vuejs%20-%2335495e.svg?&style=for-the-badge&logo=vue.js&logoColor=%234FC08D" height="20"/>
-<img src="https://img.shields.io/badge/react%20-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=%2361DAFB" height="20"/>
-<img src="https://img.shields.io/badge/angular%20-%23DD0031.svg?&style=for-the-badge&logo=angular&logoColor=white" height="20"/>
-<img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" height="20"/>
+<img src="https://img.shields.io/badge/vuejs%20-%2335495e.svg?&amp;style=for-the-badge&amp;logo=vue.js&amp;logoColor=%234FC08D" height="20" />
+<img src="https://img.shields.io/badge/react%20-%2320232a.svg?&amp;style=for-the-badge&amp;logo=react&amp;logoColor=%2361DAFB" height="20" />
+<img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&amp;logo=figma&amp;logoColor=white" height="20" />
+<img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?&amp;style=for-the-badge&amp;logo=mongodb&amp;logoColor=white" height="20" /> 
+<img src="https://img.shields.io/badge/angular%20-%23DD0031.svg?&amp;style=for-the-badge&amp;logo=angular&amp;logoColor=white" height="20" />
+<img src="https://img.shields.io/badge/GitLab%20CI-FC6D26?&amp;style=for-the-badge&amp;logo=gitlab&amp;logoColor=fff" height="20" />
+<!-- [![GitLab CI](https://img.shields.io/badge/GitLab%20CI-FC6D26?logo=gitlab&logoColor=fff)](#) -->
+<!--
 <img src="https://img.shields.io/badge/nestjs-E0234E?style=for-the-badge&logo=nestjs&logoColor=white" height="20"/>
 <img src="https://img.shields.io/badge/nuxt.js-00C58E?style=for-the-badge&logo=nuxtdotjs&logoColor=white" height="20"/> 
-<img src="https://img.shields.io/badge/MongoDB-%234ea94b.svg?&style=for-the-badge&logo=mongodb&logoColor=white" height="20"/> -->
+-->
 <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&amp;logo=postgresql&amp;logoColor=white" height="20" />
+<img src="https://img.shields.io/badge/Redis-%23DD0031?style=for-the-badge&amp;logo=redis&amp;logoColor=white" height="20" />
+<!-- [![DynamoDB](https://img.shields.io/badge/DynamoDB-4053D6?logo=amazondynamodb&logoColor=fff)](#)
+[![jQuery](https://img.shields.io/badge/jQuery-0769AD?logo=jquery&logoColor=fff)](#)
+[![Microsoft Azure](https://custom-icon-badges.demolab.com/badge/Microsoft%20Azure-0089D6?logo=msazure&logoColor=white)](#) -->
+<img src="https://img.shields.io/badge/Devops-0089D6?logo=msazure&amp;logoColor=white&amp;style=for-the-badge" height="20" />
 <img src="https://img.shields.io/badge/Microsoft%20Azure-0089D6?logo=microsoft-azure&amp;logoColor=white&amp;style=for-the-badge" height="20" />
 <img src="https://img.shields.io/badge/Amazon_AWS-FF9900?style=for-the-badge&amp;logo=amazonaws&amp;logoColor=white" height="20" />
 <img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&amp;logo=google-cloud&amp;logoColor=white" height="20" />
@@ -308,7 +325,7 @@ I'm Alexsandro Zanella, and I work as a Software Engineer.I love software develo
 <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&amp;logo=linux&amp;logoColor=black" height="20" />
 <img src="https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&amp;logo=git&amp;logoColor=white" height="20" />
 <img src="https://img.shields.io/badge/firebase-FFCA28?style=for-the-badge&amp;logo=git&amp;logoColor=black" height="20" />
-<!-- <img src="https://img.shields.io/badge/python-0089D6?logo=python&logoColor=white&style=for-the-badge" height="20"/> -->
+<img src="https://img.shields.io/badge/python-0089D6?logo=python&amp;logoColor=white&amp;style=for-the-badge" height="20" />
 <!-- <img src="https://img.shields.io/badge/django%20-%23007ACC.svg?&style=for-the-badge&logo=django&logoColor=white" height="20"/> -->
 </p>
 
@@ -331,7 +348,6 @@ I'm Alexsandro Zanella, and I work as a Software Engineer.I love software develo
 
         
 
-
       </footer>
 
       
@@ -346,11 +362,12 @@ I'm Alexsandro Zanella, and I work as a Software Engineer.I love software develo
   
 </div>
 
+      
     </div>
 
     
       <div class="search-content">
-        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
     <label class="sr-only" for="search">
       Enter your search term...
     </label>
@@ -394,7 +411,7 @@ I'm Alexsandro Zanella, and I work as a Software Engineer.I love software develo
   </ul>
 </div>
 
-<div class="page__footer-copyright">&copy; 2024 Alexsandro Zanella. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+<div class="page__footer-copyright">&copy; 2025 <a href="">Alexsandro Zanella's Blog</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
 
       </footer>
     </div>
@@ -408,7 +425,6 @@ I'm Alexsandro Zanella, and I work as a Software Engineer.I love software develo
 <script src="/assets/js/lunr/lunr.min.js"></script>
 <script src="/assets/js/lunr/lunr-store.js"></script>
 <script src="/assets/js/lunr/lunr-en.js"></script>
-
 
 
 
